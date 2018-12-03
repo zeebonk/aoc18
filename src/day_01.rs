@@ -55,7 +55,7 @@ mod day_1_part_1 {
 }
 
 #[cfg(test)]
-mod day_2_part_2 {
+mod day_1_part_2 {
     use super::*;
 
     #[test]
