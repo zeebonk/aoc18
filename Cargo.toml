@@ -1,0 +1,10 @@
+[package]
+name = "aoc18"
+version = "0.1.0"
+authors = ["Gijs van der Voort <vandervoort.gijs@gmail.com>"]
+
+[[bin]]
+name = "day_01"
+path = "src/day_01.rs"
+
+[dependencies]
