@@ -1,11 +1,15 @@
+mod shared;
+
+use shared::{output_and_time};
 use std::collections::{HashSet, HashMap};
 
 const INPUT: &str = include_str!("../input/day_02.txt");
 
 fn main() {
     let input = INPUT.trim();
-    println!("Part 1: {}", solve_part_1(input));
-    println!("Part 2: {}", solve_part_2(input).unwrap());
+
+    output_and_time("Part 1", || Box::new(solve_part_1(input)));
+    output_and_time("Part 2", || Box::new(solve_part_2(input)));
 }
 
 fn solve_part_1(input: &str) -> i32 {
@@ -28,34 +32,39 @@ fn char_counts(input: &str) -> HashSet<i32> {
         *acc.entry(c).or_insert(0) += 1;
         acc
     })
-    .iter()
-    .map(|(_, cnt)| *cnt)
+    .values()
+    .map(|v| *v)
     .collect()
 }
 
-fn solve_part_2(input: &str) -> Option<String> {
+fn solve_part_2(input: &str) -> String {
     let lines: Vec<&str> =
         input
         .split(char::is_whitespace)
         .collect();
 
-    for line_a in lines.iter() {
-        for line_b in lines.iter() {
-            let common: String =
+    for (i, line_a) in lines.iter().enumerate() {
+        for line_b in lines[i..].iter() {
+            let n_uncommon =
                 line_a
                 .chars()
                 .zip(line_b.chars())
-                .filter(|(c1, c2)| c1 == c2)
-                .map(|(c1, _)| c1)
-                .collect();
+                .filter(|(c1, c2)| c1 != c2)
+                .count();
 
-            if common.len() == line_a.len() - 1 {
-                return Some(common)
+            if n_uncommon == 1 {
+                return
+                    line_a
+                    .chars()
+                    .zip(line_b.chars())
+                    .filter(|(c1, c2)| c1 == c2)
+                    .map(|(c, _)| c)
+                    .collect();
             }
         }
     }
 
-    return None;
+    unreachable!()
 }
 
 #[cfg(test)]
@@ -79,7 +88,7 @@ mod day_2_part_2 {
     fn example_1() {
         assert_eq!(
             solve_part_2("abcde fghij klmno pqrst fguij axcye wvxyz"),
-            Some(String::from("fgij"))
+            "fgij"
         );
     }
 }

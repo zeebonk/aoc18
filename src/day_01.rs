@@ -1,10 +1,13 @@
+mod shared;
+
+use shared::{output_and_time};
 use std::collections::HashSet;
 
 const INPUT: &str = include_str!("../input/day_01.txt");
 
 fn main() {
-    println!("Part 1: {}", solve_part_1(INPUT));
-    println!("Part 2: {}", solve_part_2(INPUT));
+    output_and_time("Part 1", || Box::new(solve_part_1(INPUT)));
+    output_and_time("Part 2", || Box::new(solve_part_2(INPUT)));
 }
 
 fn solve_part_1(input: &str) -> i32 {
